@@ -2,6 +2,8 @@ package codingJava.northwind.business.abstracts;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
+
 import codingJava.northwind.core.utilities.results.DataResult;
 import codingJava.northwind.core.utilities.results.Result;
 import codingJava.northwind.entities.concretes.Product;
@@ -14,6 +16,17 @@ public interface ProductService {
 	
     DataResult<Product> getByProductName(String productName);
 	
-    DataResult<Product> getByProductNameAndCategory(String productName, int categoryId);
+    DataResult<Product> getByProductNameAndCategoryId(String productName, int categoryId);
 
+    DataResult<List<Product>> getByProductNameOrCategoryId(String productName, int categoryId);
+	
+    DataResult<List<Product>> getByCategoryIdIn(List<Integer> categories);
+	
+    DataResult<List<Product>> getByProductNameContains(String productName);
+	
+    DataResult<List<Product>> getByProductNameStartsWith(String productName);
+	
+	@Query("From Product Where productName=:productName and category.categoryId=:categoryId")
+	DataResult<List<Product>> getByNameAndCategoryId(String productName, int categoryId);
+    
 }
