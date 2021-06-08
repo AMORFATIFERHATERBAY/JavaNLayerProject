@@ -3,6 +3,7 @@ package codingJava.northwind.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import codingJava.northwind.entities.concretes.Product;
 
 @RestController
 @RequestMapping("/api/products")
+@CrossOrigin
 public class ProductsController {
 	
 	private ProductService productService;
@@ -58,5 +60,23 @@ public class ProductsController {
 	public DataResult<List<Product>> getByProductNameContains( @RequestParam("productName") String productName){
 		
 		return this.productService.getByProductNameContains(productName);
+	}
+	
+	@GetMapping("/getByProductNameOrCategoryId")
+	public DataResult<List<Product>> getByProductNameOrCategoryId(@RequestParam("productName") String productName, int categoryId){
+		
+		return this.productService.getByProductNameOrCategoryId(productName, categoryId);
+	}
+	
+	@GetMapping("/getByNameAndCategoryId")
+	public DataResult<List<Product>> getByNameAndCategoryId(@RequestParam("productName") String productName, int categoryId){
+		
+		return this.productService.getByNameAndCategoryId(productName, categoryId);
+	}
+	
+	@GetMapping("/getByProductNameStartsWith")
+	public DataResult<List<Product>> getByProductNameStartsWith(String productName){
+		
+		return this.productService.getByProductNameStartsWith(productName);
 	}
 }

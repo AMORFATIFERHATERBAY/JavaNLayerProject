@@ -1,8 +1,11 @@
 package codingJava.northwind.business.concretes;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -95,6 +98,16 @@ public class ProductManager  implements ProductService {
 		
 		return new SuccessDataResult<List<Product>>(
 				this.productDao.getByNameAndCategory_CategoryId(productName, categoryId),"Products are listed");
+	}
+
+
+	@Override
+	public DataResult<List<Product>> getAll(int pageNo, int pageSize) {
+		
+		Pageable pageAble = PageRequest.of(pageNo, pageSize);
+		
+		return new SuccessDataResult<List<Product>>(
+				this.productDao.findAll(pageAble).getContent());
 	}
 
 }
