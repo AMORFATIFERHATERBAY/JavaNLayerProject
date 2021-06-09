@@ -3,6 +3,7 @@ package codingJava.northwind.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import codingJava.northwind.core.utilities.results.DataResult;
 import codingJava.northwind.core.utilities.results.Result;
 import codingJava.northwind.core.utilities.results.SuccessDataResult;
 import codingJava.northwind.entities.concretes.Product;
+import codingJava.northwind.entities.dtos.ProductWithCategoryDto;
 
 @RestController
 @RequestMapping("/api/products")
@@ -71,12 +73,36 @@ public class ProductsController {
 	@GetMapping("/getByNameAndCategoryId")
 	public DataResult<List<Product>> getByNameAndCategoryId(@RequestParam("productName") String productName, int categoryId){
 		
-		return this.productService.getByNameAndCategoryId(productName, categoryId);
+		return this.productService.getByNameAndCategory(productName, categoryId);
 	}
 	
 	@GetMapping("/getByProductNameStartsWith")
 	public DataResult<List<Product>> getByProductNameStartsWith(String productName){
 		
 		return this.productService.getByProductNameStartsWith(productName);
+	}
+	
+	@GetMapping("/getAllByPage")
+	DataResult<List<Product>> getAll(int pageNo, int pageSize){
+		
+		return this.productService.getAll(pageNo, pageSize);
+	}
+	
+	@GetMapping("/getAllSortDesc")
+    DataResult<List<Product>> getAllSortedDesc() {
+	
+		return this.productService.getAllSortedDesc();
+    }
+	
+	@GetMapping("/getAllSortAsc")
+    DataResult<List<Product>> getAllSortedAsc() {
+	
+		return this.productService.getAllSortedAsc();
+    }
+	
+	@GetMapping("/getProductWithCategoryDetails")
+	public DataResult<List<ProductWithCategoryDto>> getProductWithCategoryDetails(){
+		
+		return this.productService.getProductWithCategoryDetails();
 	}
 }

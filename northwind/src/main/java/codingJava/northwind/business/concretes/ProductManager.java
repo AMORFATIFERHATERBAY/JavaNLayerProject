@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -16,6 +17,7 @@ import codingJava.northwind.core.utilities.results.SuccessDataResult;
 import codingJava.northwind.core.utilities.results.SuccessResult;
 import codingJava.northwind.dataAccess.abstracts.ProductDao;
 import codingJava.northwind.entities.concretes.Product;
+import codingJava.northwind.entities.dtos.ProductWithCategoryDto;
 
 @Service
 public class ProductManager  implements ProductService {
@@ -94,20 +96,46 @@ public class ProductManager  implements ProductService {
 
 
 	@Override
-	public DataResult<List<Product>> getByNameAndCategoryId(String productName, int categoryId) {
+	public DataResult<List<Product>> getByNameAndCategory(String productName, int categoryId) {
 		
 		return new SuccessDataResult<List<Product>>(
-				this.productDao.getByNameAndCategory_CategoryId(productName, categoryId),"Products are listed");
+				this.productDao.getByNameAndCategory(productName, categoryId),"Products are listed");
 	}
 
 
 	@Override
 	public DataResult<List<Product>> getAll(int pageNo, int pageSize) {
 		
-		Pageable pageAble = PageRequest.of(pageNo, pageSize);
+		Pageable pageAble = PageRequest.of(pageNo-1, pageSize);
 		
 		return new SuccessDataResult<List<Product>>(
 				this.productDao.findAll(pageAble).getContent());
+	}
+
+
+	@Override
+	public DataResult<List<Product>> getAllSortedDesc() {
+		
+		Sort sort  = Sort.by(Sort.Direction.DESC, "productName");
+		
+		return new SuccessDataResult<List<Product>>(this.productDao.findAll(sort),"Successfully");
+	}
+	
+	@Override
+    public DataResult<List<Product>> getAllSortedAsc() {
+		
+		Sort sort  = Sort.by(Sort.Direction.ASC, "productName");
+		
+		return new SuccessDataResult<List<Product>>(this.productDao.findAll(sort),"Successfully");
+	}
+
+
+
+	@Override
+	public DataResult<List<ProductWithCategoryDto>> getProductWithCategoryDetails() {
+		
+		return new SuccessDataResult<List<ProductWithCategoryDto>>(
+				this.productDao.getProductWithCategoryDetails(),"Products detail is listed");
 	}
 
 }

@@ -7,10 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import codingJava.northwind.core.utilities.results.DataResult;
 import codingJava.northwind.core.utilities.results.Result;
 import codingJava.northwind.entities.concretes.Product;
+import codingJava.northwind.entities.dtos.ProductWithCategoryDto;
 
 public interface ProductService {
 	
 	DataResult<List<Product>> getAll();
+	
+	DataResult<List<Product>> getAllSortedAsc();
+	
+	DataResult<List<Product>> getAllSortedDesc();
 	
 	DataResult<List<Product>> getAll(int pageNo, int pageSize);
 	
@@ -28,7 +33,7 @@ public interface ProductService {
 	
     DataResult<List<Product>> getByProductNameStartsWith(String productName);
 	
-	@Query("From Product Where productName=:productName and category.categoryId=:categoryId")
-	DataResult<List<Product>> getByNameAndCategoryId(String productName, int categoryId);
+	DataResult<List<Product>> getByNameAndCategory(String productName, int categoryId);
     
+	DataResult<List<ProductWithCategoryDto>> getProductWithCategoryDetails();
 }
