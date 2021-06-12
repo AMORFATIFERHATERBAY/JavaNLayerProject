@@ -20,7 +20,7 @@ import codingJava.northwind.entities.concretes.Product;
 import codingJava.northwind.entities.dtos.ProductWithCategoryDto;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping(value="/api/products")
 @CrossOrigin
 public class ProductsController {
 	
